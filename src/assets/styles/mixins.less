@@ -1,0 +1,10 @@
+// mixins => 当成 less 中的定义的一些函数（混入）
+// 鼠标经过上移阴影动画
+.hoverShadow () {
+  transition: all 0.5s;
+  &:hover {
+    // translate3d 开启硬件加速 => 性能渲染效果会更好
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+}

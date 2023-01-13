@@ -7,17 +7,8 @@ async function getTest() {
 getTest();
 </script>
 <template>
-  <div class="box">我是app组件</div>
-  <div class="box">我是app组件</div>
-  <div class="box">我是app组件</div>
+  <div>我是app组件</div>
 </template>
 <style scoped lang="less">
-@import "@/assets/styles/variables.less";
 @import "@/assets/styles/mixins.less";
-.box {
-  width: 300px;
-  height: 300px;
-  background-color: @priceColor;
-  .hoverShadow();
-}
 </style>

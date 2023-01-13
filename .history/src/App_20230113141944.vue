@@ -8,8 +8,6 @@ getTest();
 </script>
 <template>
   <div class="box">我是app组件</div>
-  <div class="box">我是app组件</div>
-  <div class="box">我是app组件</div>
 </template>
 <style scoped lang="less">
 @import "@/assets/styles/variables.less";
@@ -17,7 +15,7 @@ getTest();
 .box {
   width: 300px;
   height: 300px;
-  background-color: @priceColor;
+  background-color: @xtxColor;
   .hoverShadow();
 }
 </style>

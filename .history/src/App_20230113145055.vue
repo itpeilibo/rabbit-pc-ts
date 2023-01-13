@@ -17,7 +17,7 @@ getTest();
 .box {
   width: 300px;
   height: 300px;
-  background-color: @priceColor;
+  background-color: @xtxColor;
   .hoverShadow();
 }
 </style>

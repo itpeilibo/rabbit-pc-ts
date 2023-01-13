@@ -10,20 +10,10 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve.resolve(__dirname, './src')
     }
   },
   server: {
     port:3000
-  },
-  css: {
-    preprocessorOptions: {
-      less: {
-        additionalData: `
-          @import "@/assets/styles/variables.less";
-          @import "@/assets/styles/mixins.less";
-        `
-      }
-    }
   }
 })

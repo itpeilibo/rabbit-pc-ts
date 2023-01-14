@@ -7,11 +7,9 @@
 // getTest();
 </script>
 <template>
-  <div>
-    <RouterView></RouterView>
-  </div>
+  <RouterView></RouterView>
 </template>
-<style lang="less">
+<style scoped lang="less">
 // .box {
 //   width: 300px;
 //   height: 300px;

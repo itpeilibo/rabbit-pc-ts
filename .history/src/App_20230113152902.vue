@@ -6,12 +6,8 @@
 // }
 // getTest();
 </script>
-<template>
-  <div>
-    <RouterView></RouterView>
-  </div>
-</template>
-<style lang="less">
+<template></template>
+<style scoped lang="less">
 // .box {
 //   width: 300px;
 //   height: 300px;

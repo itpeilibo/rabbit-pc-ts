@@ -14,7 +14,7 @@ export default defineStore('category', {
     }
   },
   actions: {
-      async getAllCategory() {
+      async getCategoryList() {
           const {data:res} = await request.get<ApiRes<CategoryItem[]>>('/home/category/head')
          // 这里对后台返回回来的数据进行加工，新增一个属性 open，标记
          // 默认所有都隐藏

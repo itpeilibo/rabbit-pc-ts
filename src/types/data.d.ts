@@ -4,20 +4,22 @@ export interface ApiRes <T>{
     msg: string,
     result: T
 }
-export interface CategoryGoods {
+export interface CateGoodsItem {
     desc:string
     id:string
     name:string
     picture:string
     price:string
 }
-//单个接口的类型
+//单个分类的类型
 export interface CategoryItem {
     id: string,
     name: string,
     picture: string,
     children: CategoryItem[],
-    goods: CategoryGoods[]
+    goods: CateGoodsItem[],
+    parentId: string,
+    parentName: string,
     open:boolean
 }
 //   轮播每一项的类型声明
@@ -71,7 +73,6 @@ export interface HomeProduct {
         price: string
         picture: string
         discount?: any
-        orderNum: number
     }[]
 }
 
@@ -91,4 +92,39 @@ export interface Special {
     viewNum: number
     replyNum: number
 }
+// 顶级分类类型
+export type TopCategory = {
+    id: string
+    name: string
+    picture: string
+    children: CategoryItem[]
+}
 
+export type SaleProperty = {
+    id: string
+    name: string
+    properties: {
+        id: string
+        name: string
+    }[]
+}
+
+export interface SubCategory {
+    id: string
+    name: string
+    picture?: any
+    parentId: string
+    parentName: string
+    brands: {
+        id: string
+        name: string
+        nameEn: string
+        logo: string
+        picture: string
+        type?: any
+        desc: string
+        place: string
+    }[]
+    saleProperties: SaleProperty[],
+    goods: GoodItem[]
+}

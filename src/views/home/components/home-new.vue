@@ -17,7 +17,7 @@ const target = useLazyData(() => {
     <Transition name="fade">
       <ul class="goods-list" v-if="home.newGoodList.length > 0">
         <li v-for="item in home.newGoodList" :key="item.id">
-          <RouterLink to="/">
+          <RouterLink :to="`goods/${item.id}`">
             <img v-lazy="item.picture || DefaultImg" alt="" />
             <p class="name ellipsis">{{ item.name }}</p>
             <p class="price">&yen;{{ item.price }}</p>

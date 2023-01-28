@@ -6,7 +6,11 @@ const { category } = useStore();
   <div>
     <ul class="app-header-nav">
       <li class="home"><RouterLink to="/">首页</RouterLink></li>
-      <li v-for="(item,index) in category.list" :key="index" @mouseenter="category.show(item.id)" @mouseleave="category.hide((item.id))">
+      <li
+          v-for="(item,index) in category.list"
+          :key="index"
+          @mousemove="category.show(item.id)"
+          @mouseleave="category.hide((item.id))">
         <!--   一级分类的导航按钮           -->
         <router-link :to="`/category/${item.id}`" @click="category.hide(item.id)">{{item.name}}</router-link>
         <!-- 新增++++++++ -->

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import useStore from '@/store'
 import {useRoute} from "vue-router";
-import {watchEffect} from "vue";
+import {watchEffect,ref} from "vue";
 import {storeToRefs} from "pinia";
 import GoodsImage from '@/views/goods/components/goods-image.vue'
 import GoodsSales from './components/goods-sales.vue'
@@ -9,6 +9,7 @@ import GoodName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
 const {goods} = useStore()
 const route = useRoute()
+const count = ref(5)
 watchEffect(() => {
   const id = route.params.id
   // 必须id存在，且是商品页才发请求
@@ -50,6 +51,8 @@ const changeSku = (skuId: string) => {
                 <GoodName :goods="info"></GoodName>
 <!--                SKU组件，选择规格-->
                 <GoodsSku :goods="info" @changeSku="changeSku"></GoodsSku>
+<!--                数字选择框-->
+                <XtxNumbox v-model="count" :max="10" :main="1"></XtxNumbox>
               </div>
             </div>
             <!-- 商品详情 -->

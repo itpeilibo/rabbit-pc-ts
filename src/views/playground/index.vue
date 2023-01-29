@@ -1,64 +1,35 @@
 <script setup lang="ts">
+import Son from "@/views/playground/components/Son.vue";
 import {ref} from "vue";
 
-const rlag = ref(true)
+const money = ref(100)
+const car = ref('劳斯莱斯')
+const score = ref(999)
+const handleChange = (newMoney:number) => {
+  if (newMoney < 90) {
+    alert('今天花了10元钱')
+  } else {
+    money.value = newMoney
+  }
+}
 </script>
 
 <template>
-  <button @click="rlag = !rlag">切换</button>
-  <transition name="bounce">
-    <div v-if="rlag" class="box">我是一个盒子</div>
-  </transition>
+<!--  普通传值-->
+<!--  <h1>我是父组件 - {{money}}</h1>-->
+<!--  <Son :money="money" @changeMoney="handleChange"></Son>-->
+<!--  sync语法-->
+<!--  <h1>我是父组件 - {{money}}</h1>-->
+<!--  <Son :money.sync="money"></Son>-->
+<!--  v-model语法-->
+  <h1>我是父组件 - {{money}}- {{car}}</h1>
+  <Son
+      v-model:money="money"
+      v-model:car="car"
+      v-model:modelValue="score"
+  ></Son>
+
 </template>
 <style scoped>
-.box {
-  width: 500px;
-  height: 500px;
-  background-color: pink;
-}
-/* transition 只能实现两个状态的动画，如果有多个状态的动画要显示(animation) */
-@keyframes bounce {
-  0% {
-    transform: scale(0);
-  }
-  25% {
-    transform: scale(2);
-  }
-  50% {
-    transform: scale(0.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-.bounce-enter-active {
-  animation: bounce 4s;
-}
-.bounce-leave-active {
-  animation: bounce 4s reverse;
-}
-/* 只淡入，不放大的动画 */
-.fade-enter-from {
-  opacity: 0;
-  width: 100px;
-  height: 100px;
-}
-.fade-enter-active {
-transition: all  1s;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-.test-leave-from {
-  transform: translateX(0px);
-  opacity: 1;
-}
-.test-leave-active {
-transition: all 3s;
-}
-.test-leave-to {
-  opacity: 0;
-  transform: translateX(500px);
-}
 
 </style>

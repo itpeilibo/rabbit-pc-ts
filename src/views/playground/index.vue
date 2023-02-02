@@ -1,35 +1,27 @@
 <script setup lang="ts">
-import Son from "@/views/playground/components/Son.vue";
-import {ref} from "vue";
-
-const money = ref(100)
-const car = ref('劳斯莱斯')
-const score = ref(999)
-const handleChange = (newMoney:number) => {
-  if (newMoney < 90) {
-    alert('今天花了10元钱')
-  } else {
-    money.value = newMoney
-  }
+// import {h, onMounted,render} from 'vue'
+import Message from "@/components/message/index";
+// // 这里是在拿组件的整个配置项，基于 .vue组件，创建虚拟dom 和 全局组件没有关系
+// const vNode = h(XtxMessage,{type: 'error'},'登录成功')
+// onMounted(() => {
+//   render(vNode,document.querySelector('.box')!)
+// })
+const changeFn = () => {
+  // Message({
+  //   type: "success",
+  //   text: '登录成功',
+  //   duration: 4000
+  // })
+  Message.success('登录成功',3000)
 }
 </script>
 
 <template>
-<!--  普通传值-->
-<!--  <h1>我是父组件 - {{money}}</h1>-->
-<!--  <Son :money="money" @changeMoney="handleChange"></Son>-->
-<!--  sync语法-->
-<!--  <h1>我是父组件 - {{money}}</h1>-->
-<!--  <Son :money.sync="money"></Son>-->
-<!--  v-model语法-->
-  <h1>我是父组件 - {{money}}- {{car}}</h1>
-  <Son
-      v-model:money="money"
-      v-model:car="car"
-      v-model:modelValue="score"
-  ></Son>
-
+  <div class="box">
+<!--    <XtxMessage></XtxMessage>-->
+    <button @click="changeFn">登录</button>
+  </div>
 </template>
-<style scoped>
+<style scoped lang="less">
 
 </style>

@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, {AxiosError} from 'axios'
+import Message from "@/components/message";
 
 // 备用接口地址: http://pcapi-xiaotuxian-front-devtest.itheima.net/
 const instance = axios.create({
@@ -22,9 +23,19 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   function (response) {
+
     return response
   },
-  function (error) {
+  function (error: AxiosError<{message: string, code: string}>) {
+      //  特殊情况：响应压根没回来
+      console.log(error)
+      if (!error.response) {
+
+          Message.error('网络异常，请稍后重试')
+      } else {
+          // 有响应，正常给提示
+          Message.error(error.response.data.message)
+      }
     // 对响应错误做点什么
     return Promise.reject(error)
   }

@@ -1,27 +1,25 @@
-<script setup lang="ts">
-// import {h, onMounted,render} from 'vue'
-import Message from "@/components/message/index";
-// // 这里是在拿组件的整个配置项，基于 .vue组件，创建虚拟dom 和 全局组件没有关系
-// const vNode = h(XtxMessage,{type: 'error'},'登录成功')
-// onMounted(() => {
-//   render(vNode,document.querySelector('.box')!)
-// })
-const changeFn = () => {
-  // Message({
-  //   type: "success",
-  //   text: '登录成功',
-  //   duration: 4000
-  // })
-  Message.success('登录成功',3000)
-}
-</script>
+<script lang="ts" setup name="Numbox">
+//
+import {ref} from "vue";
 
+const money = ref(100)
+const handleChange = (newMoney: number) => {
+  money.value =newMoney
+}
+const count = ref(1)
+</script>
 <template>
-  <div class="box">
-<!--    <XtxMessage></XtxMessage>-->
-    <button @click="changeFn">登录</button>
+  <div class="spec">
+<!--    <XtxNum v-model:money="money" v-model="count" :min="1" :max="20"></XtxNum>-->
+    <XtxButton type="primary" style="margin-left: 20px" size="mini">按钮</XtxButton>
+    <XtxButton type="default" style="margin-left: 20px" size="mini">按钮</XtxButton>
+    <XtxButton type="plain" style="margin-left: 20px" size="mini">按钮</XtxButton>
+    <XtxButton type="gray" style="margin-left: 20px" size="mini">按钮</XtxButton>
   </div>
 </template>
-<style scoped lang="less">
 
+<style scoped lang="less">
+.spec {
+  margin-top: 100px;
+}
 </style>

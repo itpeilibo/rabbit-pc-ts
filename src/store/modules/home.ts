@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import request from "@/utils/request";
 import {BannerItem, ApiRes, GoodItem, HotGoods, Brand, HomeProduct, Special} from '@/types/data';
 export default defineStore('home', {
+
     state() {
         return {
             bannerList: [] as BannerItem[],

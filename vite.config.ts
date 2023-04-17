@@ -17,7 +17,10 @@ export default defineConfig({
     }
   },
   server: {
-    port:3000
+    host: "www.corho.com",
+    port:8080,
+    open: true, // 帮我们打开浏览器
+    cors: true, // 允许开发时 ajax 跨域
   },
   css: {
     preprocessorOptions: {

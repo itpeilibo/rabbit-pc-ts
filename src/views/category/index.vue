@@ -29,7 +29,7 @@ watchEffect(() => {
 home.getBannerList()
 </script>
 <template>
-  <div class="top-category">一级分类组件 --- {{route.params}}
+  <div class="top-category">
 <!-- 为了和组件库统一 => 组件库都是这么处理的，我们这么封装，是和组件库同步了   -->
      <div class="container">
        <XtxBread>

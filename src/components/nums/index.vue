@@ -1,57 +1,65 @@
-<script lang="ts" setup name="XtxNumbox">
-import {getCurrentInstance,ComponentInternalInstance} from "vue";
+<script lang="ts" setup name="XtxNum">
+//
 
-const props = defineProps({
+const props  = defineProps({
+  money: {
+    type: Number,
+    default: 0
+  },
   modelValue: {
     type: Number,
-    default: 1
+    default:1
   },
-  main: {
+   min: {
     type: Number,
-    default: 1
-  },
-  max: {
-    type: Number,
-    default: 99
-  },
-  hasLabel: {
+     default: 1
+   },
+   max: {
+    type:Number,
+     default: 20
+   },
+   showLabel: {
     type: Boolean,
-    default: true
-  }
+     default: false
+   }
 })
-// let {ctx:_this}: any = getCurrentInstance()
-const {proxy} = getCurrentInstance() as ComponentInternalInstance
+
 const emit = defineEmits<{
+  (e: 'update:money',newMoney: number): void
   (e: 'update:modelValue',value: number): void
 }>()
+const changeMoney = () => {
+  emit('update:money',props.money +  32)
+}
+const sub = () => {
+  if (props.modelValue <= props.min) return
+  emit('update:modelValue',props.modelValue - 1)
+}
 const add = () => {
   if (props.modelValue >= props.max) return
   emit('update:modelValue',props.modelValue + 1)
 }
-const sub = () => {
-  if (props.modelValue <= props.main) return
-  emit('update:modelValue',props.modelValue - 1)
-}
 const handleChange = (e: Event) => {
   // 通过类型断言，让ts知道目前元素的类型
   const element = e.target as HTMLInputElement
+  console.log(e.target)
   let value = +element.value
   if (isNaN(value)) value = 1
   if (value >= props.max) value = props.max
-  if (value <= props.main) value = props.main
+  if (value <= props.min) value = props.min
   emit('update:modelValue',value)
   // _this.$forceUpdate()
-  proxy?.$forceUpdate()
 }
-
 </script>
 <template>
+  <h3>我是{{money}}</h3>
+  <button @click="changeMoney">花钱</button>
   <div class="xtx-numbox">
-    <div class="label" v-if="hasLabel">数量</div>
+    <div class="label" v-if="showLabel"><slot>数量</slot></div>
     <div class="numbox">
-      <a href="javascript:;" @click="sub" :class="{not:props.modelValue <= props.main}">-</a>
+      <a href="javascript:;" @click="sub" :class="{not: props.modelValue <= props.min}">-</a>
       <input type="text" :value="modelValue" @change="handleChange($event)"/>
-      <a href="javascript:;" @click="add" :class="{not:props.modelValue >= props.max}">+</a>
+      <a href="javascript:;" @click="add" :class="{not: props.modelValue >= props.max}">+</a>
     </div>
   </div>
 </template>

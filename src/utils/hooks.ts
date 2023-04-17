@@ -1,5 +1,5 @@
-import {onBeforeMount, onBeforeUnmount, onMounted, ref} from "vue";
-import {useIntersectionObserver} from "@vueuse/core";
+import {onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref} from "vue";
+import {useIntersectionObserver, useIntervalFn} from "@vueuse/core";
 // 组件数据懒加载
 export function useLazyData(apiFn: () => void) {
     const target = ref(null)
@@ -28,4 +28,26 @@ export function useScrollY() {
     window.removeEventListener('scroll',onScroll)
   })
   return y
+}
+
+export function useCountDown(count: number = 60) {
+    const time = ref(0) // 倒计时的秒数
+    const {pause,resume} = useIntervalFn(() => {
+        time.value--
+        if (time.value <= 0) pause()
+    },1000,{
+        immediate:false
+    })
+    const start = () => {
+        time.value = count
+        resume()
+    }
+    // 如果组件被卸载了，也要清除定时器
+    // onUnmounted(() => {
+    //     pause()
+    // })
+    return {
+        time,
+        start
+    }
 }

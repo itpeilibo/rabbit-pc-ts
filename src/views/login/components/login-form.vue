@@ -4,46 +4,33 @@ import {ref, watch} from "vue";
 import Message from "@/components/message";
 import {useRouter} from "vue-router";
 import {useField, useForm} from "vee-validate";
+import {useCountDown} from "@/utils/hooks";
+import {accountRule, codeRule, isAgreeRule, mobileRule, passwordRule} from "@/utils/validate";
 
 const router = useRouter()
 const type = ref<'account' | 'mobile'>('account')
 const {user} = useStore()
 
 const changeFn = () => {
-  console.log('值已修改')
 }
 // 添加校验
 const { validate,resetForm } = useForm({
 // 设置初始值
-// initialValues
+initialValues: {
+  mobile: '13666666666',
+  code: '123456',
+  account: 'xiaotuxian001',
+  password: '123456',
+  isAgree: true
+},
 
 // 设置校验规则
 validationSchema: {
-  account(value: string) {
-  //  校验1：非空校验，return 的就是错误信息
-    if (!value) return '请输入用户名'
-  //  校验2：6-20个字符，必须以字母开头 正则
-    if (!/^[a-zA-Z]\w{5,19}$/.test(value)) return '必须是字母开头的6-20个字符'
-  // 如果校验通过，需要return true，其他说有情况，都是失败
-    return true
-  },
-  password(value: string) {
-    if (!value) return '请输入密码'
-    if (!/^\w{6,12}$/.test(value)) return '必须是6-12位字符'
-    return true
-  },
-  isAgree(value: string) {
-    if (!value) return '请输入许可'
-    return true
-  },
-  mobile(value: string) {
-    if (!value) return '请输入手机号'
-    if (!/^1[3-9]\d{9}$/.test(value)) return '手机号格式有误'
-  },
-  code(value: string) {
-    if (!value) return '请输入验证码'
-    if (!/^\d{6}$/.test(value)) return '验证码格式有误'
-  }
+  account:accountRule,
+  password:passwordRule,
+  isAgree:isAgreeRule,
+  mobile:mobileRule,
+  code:codeRule
 }
 })
 // value：用于和表单绑定的响应式数据
@@ -57,14 +44,17 @@ const login = async () => {
   // 登陆前的校验
   const res = await validate()
   // 没有校验通过，直接 return
-  if (!res.valid) return
-  try {
+  if (type.value === 'account') {
+    // 账号登录，如果账号或密码或同意许可，任何一个，有校验错误，就return
+    if (res.errors.account || res.errors.password || res.errors.isAgree) return
     await user.login(account.value,password.value)
-    Message.success('登录成功')
-    await router.push('/')
-  } catch (e) {
-    Message.error('用户名或者密码错误')
+  } else {
+    // 手机号验证码登录
+    if (res.errors.mobile || res.errors.code) return
+    await user.mobileLogin(mobile.value,code.value)
   }
+  Message.success('登录成功')
+  await router.push('/')
 }
 
 // 处理切换重置
@@ -74,26 +64,19 @@ watch(type,() => {
 })
 // 处理发送验证码逻辑
 const mobileRef = ref<HTMLInputElement | null>(null)
-const time = ref(0) // 倒计时的秒数
-let timeId = -1 // 定时器的id
+const {time,start} = useCountDown(60)
 const send = async () => {
   // 如果是在倒计时的过程中，不让send被重复点击的
   if (time.value > 0) return
 // 后手机号通过校验，校验结果为 true 才发送验证码
-//   const res = await validateMobile()
-//   if (!res.valid) {
-//     mobileRef.value?.focus()
-//   }
-//     await user.sendMobileCode(mobile.value)
-//     Message.success('获取验证码成功')
+  const res = await validateMobile()
+  if (!res.valid) {
+    mobileRef.value?.focus()
+  }
+    await user.sendMobileCode(mobile.value)
+    Message.success('获取验证码成功')
   // 实现验证码
-  time.value = 5
-  timeId = window.setInterval(() => {
-    time.value--
-    if (time.value <= 0) {
-      clearInterval(timeId)
-    }
-  },1000)
+  start()
 }
 </script>
 <template>
@@ -154,10 +137,11 @@ const send = async () => {
       <a href="javascript:;" class="btn" @click="login">登录</a>
     </div>
     <div class="action">
-      <img
-          src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
-          alt=""
-      />
+     <a href="https://graph.qq.com/oauth2.0/authorize?client_id=100556005&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Fwww.corho.com%3A8080%2F%23%2Flogin%2Fcallback">
+      <img src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
+      alt="QQ登录"
+      border="0">
+     </a>
       <div class="url">
         <a href="javascript:;">忘记密码</a>
         <a href="javascript:;">免费注册</a>

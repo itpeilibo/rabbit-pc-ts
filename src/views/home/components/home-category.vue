@@ -46,7 +46,7 @@ const goods = computed(() => {
       <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
       <ul>
         <li v-for="item in goods" :key="item.id">
-          <RouterLink to="/">
+          <RouterLink :to="`/goods/${item.id}`">
             <img :src="item.picture" alt="">
             <div class="info">
               <p class="name ellipsis-2">{{item.name}}</p>

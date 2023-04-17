@@ -1,5 +1,6 @@
 import axios, {AxiosError} from 'axios'
 import Message from "@/components/message";
+import useStore from "@/store";
 
 // 备用接口地址: http://pcapi-xiaotuxian-front-devtest.itheima.net/
 const instance = axios.create({
@@ -7,11 +8,17 @@ const instance = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front.itheima.net/',
   timeout: 5000
 })
-
 // 添加请求拦截器
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+      const {user} = useStore()
+
+      if (user.profile.token) {
+          config.headers
+              ? (config.headers!.Authorization = `Bearer ${user.profile.token}`)
+              : config.headers = {Authorization: `Bearer ${user.profile.token}`}
+      }
     return config
   },
   function (error) {
@@ -34,7 +41,12 @@ instance.interceptors.response.use(
           Message.error('网络异常，请稍后重试')
       } else {
           // 有响应，正常给提示
-          Message.error(error.response.data.message)
+          const {code,message} = error.response.data
+          if (code === '501' && message === "三方登录失败") {
+              Message.error('当前QQ号与平台账号未关联')
+          } else {
+              Message.error(message)
+          }
       }
     // 对响应错误做点什么
     return Promise.reject(error)

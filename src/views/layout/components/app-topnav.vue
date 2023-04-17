@@ -1,6 +1,22 @@
 <script lang="ts" setup name="AppTopnav">
 import useStore from '@/store'
+import router from "@/router";
+import Message from "@/components/message";
+import Confirm from "@/components/confirm";
 const {user} = useStore()
+const logoutFn = () => {
+  Confirm({
+    title:'温馨提示',
+    text:'亲~你确认要进行退出操作吗？'
+  }).then(() => {
+    user.logout()
+    router.push('/login')
+    Message.success('退出成功')
+  }).catch(()=> {
+    console.log('取消')
+  })
+
+}
 </script>
 
 <template>
@@ -9,9 +25,9 @@ const {user} = useStore()
       <ul>
       <template v-if="user.profile.token">
         <li>
-          <a href="javascript:;"><i class="iconfont icon-user"></i>{{user.profile.nickname}}</a>
+          <a href="javascript:;"><i class="iconfont icon-user"></i>{{user.profile.nickname || user.profile.account}}</a>
         </li>
-        <li><a href="javascript:;">退出登录</a></li>
+        <li><a href="javascript:;" @click="logoutFn">退出登录</a></li>
       </template>
 
       <template v-else>

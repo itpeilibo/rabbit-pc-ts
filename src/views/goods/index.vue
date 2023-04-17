@@ -9,9 +9,14 @@ import GoodName from './components/goods-name.vue'
 import GoodsSku from './components/goods-sku.vue'
 import GoodsDetail from  './components/goods-detail.vue'
 import GoodsHot from './components/goods-hot.vue'
-const {goods} = useStore()
+import Message from "@/components/message";
+import {CartItem} from "@/types/cart";
+import it from "node:test";
+const {goods,cart} = useStore()
+const { info } = storeToRefs(goods)
 const route = useRoute()
 const count = ref(5)
+const currentSkuId = ref('')
 watchEffect(() => {
   const id = route.params.id
   // 必须id存在，且是商品页才发请求
@@ -20,14 +25,40 @@ watchEffect(() => {
     goods.getGoodsInfo(id as string)
   }
 })
-const { info } = storeToRefs(goods)
 const changeSku = (skuId: string) => {
+  currentSkuId.value = skuId
   const sku = info.value.skus.find(item => item.id === skuId)
   if (sku) {
     info.value.inventory = sku.inventory // 更新库存
     info.value.price = sku.price // 更新价格
     info.value.oldPrice = sku.oldPrice // 更新老价格
   }
+}
+
+const addCart = async () => {
+// 判断是否选中了某个sku
+  if (!currentSkuId.value) {
+    Message.warning('请选择完整的规格')
+    return
+  }
+  const sku = info.value.skus.find(item => item.id === currentSkuId.value)
+  const arr = sku?.specs.map(item => `${item.name}: ${item.valueName}`)
+  const attrText = arr?.join(' ')
+   await cart.addCart({
+     // 本地添加
+     id: info.value.id, // 商品id
+     name: info.value.name, // 商品名称
+     picture: info.value.mainPictures[0], // 商品图片
+     price: info.value.price, // 价格
+     count: count.value, // 数量
+     skuId: currentSkuId.value, // skuId
+     attrsText: attrText || '', // 规格描述 => 黑色 国产 41
+     selected: true, // 是否选中
+     nowPrice: info.value.price, // 现价
+     stock: info.value.inventory, // 库存
+     isEffective: true, // 是否有效
+   })
+  Message.success('加入购物车成功')
 }
 </script>
 <template>
@@ -56,7 +87,7 @@ const changeSku = (skuId: string) => {
 <!--                数字选择框-->
                 <XtxNumbox v-model="count" :max="10" :main="1"></XtxNumbox>
 <!--                按钮组件 -->
-                <XtxButton type="primary" style="margin-top: 20px">加入购物车</XtxButton>
+                <XtxButton type="primary" style="margin-top: 20px" @click="addCart">加入购物车</XtxButton>
               </div>
             </div>
             <!-- 商品详情 -->

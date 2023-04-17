@@ -5,9 +5,12 @@ import Bread from './Bread/index.vue'
 import BreadItem from './Bread/Item.vue'
 import XtxCity from  './city/index.vue'
 import XtxNumbox from './numbox/index.vue'
+import XtxNum from '@/components/nums/index.vue'
+
 import XtxButton from './button/index.vue'
 import XtxCheckbox from './checkbox/index.vue'
 import XtxMessage from './message/message.vue'
+import Carousel from './lunbotu/index.vue'
 import {App} from "vue";
 import {useIntersectionObserver} from "@vueuse/core";
 import defaultImg from '@/assets/images/200.png'
@@ -25,6 +28,8 @@ export default {
         app.component(XtxButton.name, XtxButton)
         app.component(XtxCheckbox.name, XtxCheckbox)
         app.component(XtxMessage.name, XtxMessage)
+        app.component(Carousel.name, Carousel)
+        app.component(XtxNum.name, XtxNum)
         app.directive('lazy', {
             mounted(el,binding) {
                 //  el 目标元素,binding 指令相关的信息

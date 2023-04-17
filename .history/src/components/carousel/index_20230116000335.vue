@@ -1,5 +1,4 @@
 <script lang="ts" setup name="XtxCarousel">
-defineProps();
 </script>
 
 <template>

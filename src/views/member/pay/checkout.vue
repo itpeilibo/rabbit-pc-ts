@@ -24,12 +24,12 @@ const submitCheckout = async () => {
     addressId: checkout.showAddress.id,
   })
   // 成功提醒用户
-  Message({ type: 'success', text: '下单成功~' })
+  Message({ type: 'success', text: '下单成功~',duration: 1000 })
   // 🔔重新获取购物车列表
   cart.getCartList()
   // 跳转到支付页面
-
-  router.replace('/member/pay?id=' + res.data.result.id)
+  router.push('/member/pay')
+  // router.replace('/member/pay?id=' + res.data.result.id)
 }
 </script>
 

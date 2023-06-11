@@ -11,6 +11,7 @@ import XtxButton from './button/index.vue'
 import XtxCheckbox from './checkbox/index.vue'
 import XtxMessage from './message/message.vue'
 import XtxDialog from '@/components/dialog/index.vue'
+import XtxSwitch from '@/components/switch/index.vue'
 import Carousel from './lunbotu/index.vue'
 import {App} from "vue";
 import {useIntersectionObserver} from "@vueuse/core";
@@ -32,6 +33,7 @@ export default {
         app.component(Carousel.name, Carousel)
         app.component(XtxNum.name, XtxNum)
         app.component(XtxDialog.name, XtxDialog)
+        app.component(XtxSwitch.name, XtxSwitch)
         app.directive('lazy', {
             mounted(el,binding) {
                 //  el 目标元素,binding 指令相关的信息

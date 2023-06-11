@@ -10,6 +10,7 @@ import XtxCheckbox from '@/components/checkbox/index.vue'
 import XtxMessage from '@/components/message/message.vue'
 import XtxNum from '@/components/nums/index.vue'
 import XtxDialog from '@/components/dialog/index.vue'
+import XtxSwitch  from '@/components/switch/index.vue'
 
 declare module 'vue' {
     export interface GlobalComponents {
@@ -25,5 +26,6 @@ declare module 'vue' {
         XtxMessage: typeof XtxMessage
         XtxNum: typeof XtxNum
         XtxDialog: typeof XtxDialog
+        XtxSwitch: typeof XtxSwitch
     }
 }

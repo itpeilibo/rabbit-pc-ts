@@ -25,7 +25,6 @@ const dialogVisible = ref(false)
                 <XtxButton type="primary" @click="dialogVisible = false">确认</XtxButton>
             </template>
         </XtxDialog>
-
     </Teleport>
 
 </template>

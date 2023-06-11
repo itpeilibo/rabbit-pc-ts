@@ -8,6 +8,8 @@ import {ApiRes} from "@/types/data";
 import {OrderPayInfo} from "@/types/order";
 import {useCountDown} from "@/utils/hooks";
 import dayjs from "dayjs";
+import router from "@/router";
+import Message from "@/components/message";
 
 const route = useRoute()
 const id = route.query.id
@@ -27,6 +29,12 @@ const getOrderInfo = async () => {
     showTime.value = order.value.countdown
     watch(time,(value) => {
         showTime.value = value
+
+        if (value <= 0) {
+            // 跳转页面，并提醒用户，订单已超时
+            router.replace('/cart')
+            Message.warning('订单已超时，请重新下单')
+        }
     })
 }
 getOrderInfo()

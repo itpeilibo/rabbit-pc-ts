@@ -2,13 +2,14 @@
 import useStore from "@/store/index";
 import {ref, watch} from "vue";
 import Message from "@/components/message";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useField, useForm} from "vee-validate";
 import {useCountDown} from "@/utils/hooks";
 import {accountRule, codeRule, isAgreeRule, mobileRule, passwordRule} from "@/utils/validate";
 
-const router = useRouter()
 const type = ref<'account' | 'mobile'>('account')
+const router = useRouter()
+const route = useRoute()
 const {user} = useStore()
 
 const changeFn = () => {
@@ -53,8 +54,11 @@ const login = async () => {
     if (res.errors.mobile || res.errors.code) return
     await user.mobileLogin(mobile.value,code.value)
   }
-  Message.success('登录成功')
-  await router.push('/')
+
+  // 尝试获取地址栏的查询参数
+    const redirectUrl = (route.query.redirectUrl as string) || ''
+    Message.success('恭喜，登录成功')
+    await router.push(redirectUrl)
 }
 
 // 处理切换重置

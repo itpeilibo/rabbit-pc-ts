@@ -9,6 +9,8 @@ import XtxButton from  '@/components/button/index.vue'
 import XtxCheckbox from '@/components/checkbox/index.vue'
 import XtxMessage from '@/components/message/message.vue'
 import XtxNum from '@/components/nums/index.vue'
+import XtxDialog from '@/components/dialog/index.vue'
+
 declare module 'vue' {
     export interface GlobalComponents {
         XtxSkeleton: typeof XtxSkeleton
@@ -22,5 +24,6 @@ declare module 'vue' {
         XtxCheckbox: typeof XtxCheckbox
         XtxMessage: typeof XtxMessage
         XtxNum: typeof XtxNum
+        XtxDialog: typeof XtxDialog
     }
 }

@@ -30,6 +30,7 @@ export function useScrollY() {
   return y
 }
 
+// 获取倒计时的方法
 export function useCountDown(count: number = 60) {
     const time = ref(0) // 倒计时的秒数
     const {pause,resume} = useIntervalFn(() => {

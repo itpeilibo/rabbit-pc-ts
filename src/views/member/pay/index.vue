@@ -2,22 +2,44 @@
 // 1. 解析地址栏传过来的订单号
 // 2. 基于订单号，发送请求，获得订单数据，去支付
 import {useRoute} from "vue-router";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import request from "@/utils/request";
 import {ApiRes} from "@/types/data";
 import {OrderPayInfo} from "@/types/order";
+import {useCountDown} from "@/utils/hooks";
+import dayjs from "dayjs";
 
 const route = useRoute()
 const id = route.query.id
 
 const order = ref<OrderPayInfo>({} as OrderPayInfo)
 
+const showTime = ref(0)
 const getOrderInfo = async () => {
     const {data: res} = await request.get<ApiRes<OrderPayInfo>>(`/member/order/${id}`)
     order.value = res.result
-    console.log(res.result)
+
+    // 初始化倒计时
+    const {time, start} = useCountDown(order.value.countdown)
+    start()
+
+    // 将初始化值，同步给showTime
+    showTime.value = order.value.countdown
+    watch(time,(value) => {
+        showTime.value = value
+    })
 }
 getOrderInfo()
+const formatTime = (time: number) => {
+    // return dayjs.unix(time).format('mm分ss秒')
+    let minutes: string | number = Math.floor(time / 60)
+    let seconds: string | number = time % 60
+
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    seconds = seconds < 10 ? '0' + seconds : seconds
+
+    return `${minutes}分${seconds}秒`
+}
 </script>
 <template>
     <div class="xtx-pay-page">
@@ -28,15 +50,15 @@ getOrderInfo()
                 <XtxBreadItem>支付订单</XtxBreadItem>
             </XtxBread>
             <!-- 付款信息 -->
-            <div class="pay-info">
+            <div class="pay-info" v-if="order.totalMoney">
                 <span class="icon iconfont icon-queren2"></span>
                 <div class="tip">
                     <p>订单提交成功！请尽快完成支付。</p>
-                    <p>支付还剩 <span>{{order.countdown}}</span>, 超时后将取消订单</p>
+                    <p>支付还剩 <span>{{ formatTime(showTime) }}</span>, 超时后将取消订单</p>
                 </div>
                 <div class="amount">
                     <span>应付总额：</span>
-                    <span>¥{{order.totalMoney}}</span>
+                    <span>¥{{order?.totalMoney}}</span>
                 </div>
             </div>
             <!-- 付款方式 -->

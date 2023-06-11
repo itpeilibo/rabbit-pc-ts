@@ -1,4 +1,24 @@
-<script name="XtxPayPage" setup lang="ts"></script>
+<script name="XtxPayPage" setup lang="ts">
+// 1. 解析地址栏传过来的订单号
+// 2. 基于订单号，发送请求，获得订单数据，去支付
+import {useRoute} from "vue-router";
+import {ref} from "vue";
+import request from "@/utils/request";
+import {ApiRes} from "@/types/data";
+import {OrderPayInfo} from "@/types/order";
+
+const route = useRoute()
+const id = route.query.id
+
+const order = ref<OrderPayInfo>({} as OrderPayInfo)
+
+const getOrderInfo = async () => {
+    const {data: res} = await request.get<ApiRes<OrderPayInfo>>(`/member/order/${id}`)
+    order.value = res.result
+    console.log(res.result)
+}
+getOrderInfo()
+</script>
 <template>
     <div class="xtx-pay-page">
         <div class="container">
@@ -12,11 +32,11 @@
                 <span class="icon iconfont icon-queren2"></span>
                 <div class="tip">
                     <p>订单提交成功！请尽快完成支付。</p>
-                    <p>支付还剩 <span>24分59秒</span>, 超时后将取消订单</p>
+                    <p>支付还剩 <span>{{order.countdown}}</span>, 超时后将取消订单</p>
                 </div>
                 <div class="amount">
                     <span>应付总额：</span>
-                    <span>¥5673.00</span>
+                    <span>¥{{order.totalMoney}}</span>
                 </div>
             </div>
             <!-- 付款方式 -->

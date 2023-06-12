@@ -44,7 +44,19 @@ const router = createRouter({
         },
         {
           path: '/member',
-          component: () => import('@/views/member/layout/index.vue')
+          component: () => import('@/views/member/layout/index.vue'),
+          children: [
+            {
+              // /member
+              path: '',
+              component: () => import('@/views/member/home/index.vue')
+            },
+              // /member/order
+            {
+              path: 'order',
+              component: () => import('@/views/member/order/index.vue')
+            }
+          ]
         }
 
       ]

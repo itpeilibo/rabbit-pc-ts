@@ -25,7 +25,7 @@ const logoutFn = () => {
       <ul>
       <template v-if="user.profile.token">
         <li>
-          <a href="javascript:;"><i class="iconfont icon-user"></i>{{user.profile.nickname || user.profile.account}}</a>
+          <a @click="$router.push('/member')" href="javascript:;"><i class="iconfont icon-user"></i>{{user.profile.nickname || user.profile.account}}</a>
         </li>
         <li><a href="javascript:;" @click="logoutFn">退出登录</a></li>
       </template>

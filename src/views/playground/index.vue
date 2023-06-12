@@ -1,35 +1,16 @@
-<script lang="tsx" >
-// 即包含了结构描述，也包含了逻辑
-// => 这种jsx/tsx的写法，逻辑 和 js描述的结构混合，可以任意通过 js 代码动态控制结构
-// => 灵活性强
-export default {
-    data() {
-        return {
-          msg: 'zs'
-        }
-    },
-    // 通过 render 函数，决定组件结构（虚拟dom）而不是template
-    render() {
-        // return h('div',{title:'大标题',className: 'box'},'我是内容')
-        return (
-            <div>
-                <h3>123</h3>
-                <ul>
-                    <li>{this.msg }</li>
-                    <li>123</li>
-                    <li>123</li>
-                    <li>123</li>
-                </ul>
-            </div>
-        )
-    }
-}
-</script>
+<script setup lang="tsx">
+import {ref} from "vue";
 
-<style scoped lang="less">
-.box {
-  width: 200px;
-  height: 200px;
-  background-color: pink;
-}
+const activeName = ref('second')
+</script>
+<template>
+    <XtxTabs v-model="activeName">
+        <XtxTabsPane label="用户管理" name="first">面板1</XtxTabsPane>
+        <XtxTabsPane label="配置管理" name="second">面板2</XtxTabsPane>
+        <XtxTabsPane label="角色管理" name="third">面板3</XtxTabsPane>
+        <XtxTabsPane label="定时任务补偿" name="fourth">面板4</XtxTabsPane>
+    </XtxTabs>
+</template>
+<style lang="scss" scoped>
+
 </style>

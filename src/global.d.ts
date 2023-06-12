@@ -11,6 +11,8 @@ import XtxMessage from '@/components/message/message.vue'
 import XtxNum from '@/components/nums/index.vue'
 import XtxDialog from '@/components/dialog/index.vue'
 import XtxSwitch  from '@/components/switch/index.vue'
+import XtxTabs  from '@/components/tabs/index.vue'
+import XtxTabsPane  from '@/components/tabs/pane.vue'
 
 declare module 'vue' {
     export interface GlobalComponents {
@@ -27,5 +29,7 @@ declare module 'vue' {
         XtxNum: typeof XtxNum
         XtxDialog: typeof XtxDialog
         XtxSwitch: typeof XtxSwitch
+        XtxTabs: typeof XtxTabs
+        XtxTabsPane: typeof XtxTabsPane
     }
 }

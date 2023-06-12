@@ -3,7 +3,7 @@
 // 2. 基于订单号，发送请求，获得订单数据，去支付
 import {useRoute} from "vue-router";
 import {ref, watch} from "vue";
-import request from "@/utils/request";
+import request, {baseURL} from "@/utils/request";
 import {ApiRes} from "@/types/data";
 import {OrderPayInfo} from "@/types/order";
 import {useCountDown} from "@/utils/hooks";
@@ -48,6 +48,13 @@ const formatTime = (time: number) => {
 
     return `${minutes}分${seconds}秒`
 }
+
+// 回跳地址
+const redirectUrl = encodeURIComponent('http://www.corho.com:8080/#/pay/callback')
+
+// 保险 => 电子保单 => 客服得到一个支付链接 => 您好，我一会儿会给您一个支付链接，您直接点击这个就可以支付
+// 支付链接
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 <template>
     <div class="xtx-pay-page">
@@ -75,7 +82,7 @@ const formatTime = (time: number) => {
                 <div class="item">
                     <p>支付平台</p>
                     <a class="btn wx" href="javascript:;"></a>
-                    <a class="btn alipay" href="javascript:;"></a>
+                    <a class="btn alipay" :href="payUrl"></a>
                 </div>
                 <div class="item">
                     <p>支付方式</p>

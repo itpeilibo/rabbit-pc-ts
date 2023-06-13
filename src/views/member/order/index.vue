@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ApiRes } from '@/types/data'
 import request from '@/utils/request'
-import { ref, watch } from 'vue'
+import {ref, VNode, watch} from 'vue'
 import OrderItem from './components/order-item.vue'
 import { OrderListInfo } from '@/types/order'
 // 订单状态

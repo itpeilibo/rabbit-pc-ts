@@ -7,7 +7,6 @@ defineProps<{
 }>()
 
 const activeNameValue = inject<Ref<string>>('activeNameValue')
-console.log('aaa',activeNameValue?.value)
 </script>
 
 <template>

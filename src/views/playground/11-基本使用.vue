@@ -1,6 +1,5 @@
 <script setup lang="tsx">
 import {ref} from "vue";
-import * as dgram from "dgram";
 
 const activeName = ref('second')
 
@@ -14,13 +13,10 @@ const orderStatus = [
     { name: 'complete', label: '已完成' },
     { name: 'cancel', label: '已取消' }
 ]
-
-const handleFn = (obj:any) => {
-    console.log('obj',obj)
-}
 </script>
 <template>
-    <XtxTabs v-model="activeName" @tab-click="handleFn">
+    <XtxTabs v-model="activeName">
+        <XtxTabsPane label="用户管理" name="orderStatus[0].name">面板1 - 全部内容 </XtxTabsPane>
         <XtxTabsPane
             v-for="(item,index) in orderStatus"
             :label="item.label"

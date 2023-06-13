@@ -1,6 +1,7 @@
 <script setup lang="tsx" name="XtxTabs">
 import {toRef, toRefs, useSlots, VNode} from "vue";
 import {provide} from "vue";
+import it from "node:test";
 
 const props = defineProps({
     modelValue: {
@@ -10,12 +11,17 @@ const props = defineProps({
 })
 const emit = defineEmits<{
     (e: 'update:modelValue',newValue: String): void
+    (e: 'tab-click:modelValue',obj: {tab: VNode; index: number}): void
 }>()
 // 需要获取到插槽内容，一方面要渲染插槽的内容，另一方面根据插槽的内容，动态创建导航
 
 const slots = useSlots()
-const clickFn = (item: VNode) => {
+const clickFn = (item: VNode,index: number) => {
     emit('update:modelValue',item?.props?.name)
+    emit('tab-click',{
+        tab: item,
+        index: index
+    })
 }
 
  // 将 modelValue 共享下去
@@ -47,10 +53,10 @@ const VNodeBox = () => {
     const navs = (
         <nav>
             {
-                panes?.map((item: any) => {
+                panes?.map((item: any,index: number) => {
                     console.log('1211',item)
                     return <a class={{active: props.modelValue === item?.props?.name}}
-                              onClick={() => clickFn(item)}
+                              onClick={() => clickFn(item,index)}
                               href="javascript:;">{item?.props?.label}</a>
                 })
             }

@@ -1,5 +1,7 @@
 <script setup lang="tsx" name="XtxTabs">
-import {useSlots, VNode} from "vue";
+import {toRef, toRefs, useSlots, VNode} from "vue";
+import {provide} from "vue";
+
 const props = defineProps({
     modelValue: {
         type: String,
@@ -16,6 +18,9 @@ const clickFn = (item: VNode) => {
     emit('update:modelValue',item?.props?.name)
 }
 
+ // 将 modelValue 共享下去
+const { modelValue } = toRefs(props)
+provide('activeNameValue', modelValue)
 const VNodeBox = () => {
     // 获取所有的默认插槽的节点
     const panes = slots.default?.()

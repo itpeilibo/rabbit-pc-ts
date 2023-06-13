@@ -15,11 +15,13 @@ const orderStatus = [
 ]
 </script>
 <template>
-    <XtxTabs v-model="activeName">
-        <XtxTabsPane label="用户管理" name="first">面板1</XtxTabsPane>
-        <XtxTabsPane label="配置管理" name="second">面板2</XtxTabsPane>
-        <XtxTabsPane label="角色管理" name="third">面板3</XtxTabsPane>
-        <XtxTabsPane label="定时任务补偿" name="fourth">面板4</XtxTabsPane>
+    <XtxTabs v-model:modelValue="activeName">
+        <XtxTabsPane label="用户管理" name="all">面板1 - 全部内容 </XtxTabsPane>
+        <XtxTabsPane
+            v-for="(item,index) in orderStatus"
+            :label="item.label"
+            :name="item.name"
+        >面板{{ index + 1}}</XtxTabsPane>
     </XtxTabs>
 </template>
 <style lang="scss" scoped>

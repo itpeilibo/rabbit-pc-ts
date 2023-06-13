@@ -23,12 +23,31 @@ const { modelValue } = toRefs(props)
 provide('activeNameValue', modelValue)
 const VNodeBox = () => {
     // 获取所有的默认插槽的节点
-    const panes = slots.default?.()
+    const defaultArr = slots.default?.()
+    const panes:any = []
+
+    // 遍历 defaultArr，对每个节点做判断，分别进行处理
+    defaultArr?.forEach((item: any) => {
+        console.log('type',item)
+        if (item.type.name === 'XtxTabsPane') {
+            panes.push(item)
+        } else {
+            // 不是XtxTabsPane组件
+            // 再做判断，处理 v-for 的情况
+            if (item.children) {
+                // 遍历children,动态往panes中推
+                item.children.forEach((paen: any) => {
+                    panes.push(paen)
+                })
+            }
+        }
+    })
+
     // 根据panes动态的生成导航
     const navs = (
         <nav>
             {
-                panes?.map((item) => {
+                panes?.map((item: any) => {
                     console.log('1211',item)
                     return <a class={{active: props.modelValue === item?.props?.name}}
                               onClick={() => clickFn(item)}
